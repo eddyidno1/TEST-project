@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0a1a" />
+<title>Lumen — Luxury Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="aurora">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <main class="shell">
+    <header class="topbar glass">
+      <div class="brand">
+        <div class="brand-mark">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+        <div class="brand-text">
+          <h1>Lumen</h1>
+          <p>Luxury Calculator</p>
+        </div>
+      </div>
+      <nav class="mode-switch" role="tablist" aria-label="Calculator mode">
+        <button class="mode-btn active" data-mode="basic" role="tab">Basic</button>
+        <button class="mode-btn" data-mode="scientific" role="tab">Scientific</button>
+        <button class="mode-btn" data-mode="convert" role="tab">Convert</button>
+        <span class="mode-indicator" aria-hidden="true"></span>
+      </nav>
+      <button class="icon-btn history-toggle" aria-label="Toggle history" title="History">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
+      </button>
+    </header>
+
+    <section class="workspace">
+      <!-- ============ Calculator Card ============ -->
+      <article class="card glass calculator" data-view="calc">
+        <div class="display">
+          <div class="expression" id="expression" aria-live="polite"></div>
+          <div class="result" id="result" aria-live="polite">0</div>
+        </div>
+
+        <div class="keys-wrap" id="keys">
+          <!-- Scientific keypad (visible in scientific mode) -->
+          <div class="sci-keys">
+            <button class="key func" data-action="fn" data-fn="sin">sin</button>
+            <button class="key func" data-action="fn" data-fn="cos">cos</button>
+            <button class="key func" data-action="fn" data-fn="tan">tan</button>
+            <button class="key func" data-action="fn" data-fn="ln">ln</button>
+            <button class="key func" data-action="fn" data-fn="log">log</button>
+
+            <button class="key func" data-action="fn" data-fn="asin">sin⁻¹</button>
+            <button class="key func" data-action="fn" data-fn="acos">cos⁻¹</button>
+            <button class="key func" data-action="fn" data-fn="atan">tan⁻¹</button>
+            <button class="key func" data-action="fn" data-fn="sqrt">√</button>
+            <button class="key func" data-action="op" data-op="^">x^y</button>
+
+            <button class="key func" data-action="const" data-const="π">π</button>
+            <button class="key func" data-action="const" data-const="e">e</button>
+            <button class="key func" data-action="fn" data-fn="fact">x!</button>
+            <button class="key func" data-action="paren" data-paren="(">(</button>
+            <button class="key func" data-action="paren" data-paren=")">)</button>
+          </div>
+
+          <!-- Main keypad -->
+          <div class="main-keys">
+            <button class="key util" data-action="clear">AC</button>
+            <button class="key util" data-action="sign">±</button>
+            <button class="key util" data-action="percent">%</button>
+            <button class="key op" data-action="op" data-op="/">÷</button>
+
+            <button class="key num" data-action="num" data-num="7">7</button>
+            <button class="key num" data-action="num" data-num="8">8</button>
+            <button class="key num" data-action="num" data-num="9">9</button>
+            <button class="key op" data-action="op" data-op="*">×</button>
+
+            <button class="key num" data-action="num" data-num="4">4</button>
+            <button class="key num" data-action="num" data-num="5">5</button>
+            <button class="key num" data-action="num" data-num="6">6</button>
+            <button class="key op" data-action="op" data-op="-">−</button>
+
+            <button class="key num" data-action="num" data-num="1">1</button>
+            <button class="key num" data-action="num" data-num="2">2</button>
+            <button class="key num" data-action="num" data-num="3">3</button>
+            <button class="key op" data-action="op" data-op="+">+</button>
+
+            <button class="key num zero" data-action="num" data-num="0">0</button>
+            <button class="key num" data-action="dot">.</button>
+            <button class="key equals" data-action="equals" aria-label="Equals">=</button>
+          </div>
+        </div>
+
+        <button class="fab" id="fab" aria-label="Quick action — copy result" title="Copy result">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </article>
+
+      <!-- ============ Converter Card ============ -->
+      <article class="card glass converter hidden" data-view="convert">
+        <div class="conv-head">
+          <h2>Converter</h2>
+          <div class="conv-tabs" role="tablist">
+            <button class="conv-tab active" data-cat="currency">Currency</button>
+            <button class="conv-tab" data-cat="length">Length</button>
+            <button class="conv-tab" data-cat="weight">Weight</button>
+            <button class="conv-tab" data-cat="temp">Temp</button>
+          </div>
+        </div>
+
+        <div class="conv-body">
+          <div class="conv-row">
+            <div class="conv-field">
+              <input type="number" id="convFrom" value="1" inputmode="decimal" />
+              <select id="convFromUnit" class="unit-select"></select>
+            </div>
+          </div>
+          <div class="conv-swap-wrap">
+            <button class="conv-swap" id="convSwap" aria-label="Swap units">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4 4 4"/><path d="M17 8v12m0 0 4-4m-4 4-4-4"/></svg>
+            </button>
+          </div>
+          <div class="conv-row">
+            <div class="conv-field">
+              <input type="number" id="convTo" readonly />
+              <select id="convToUnit" class="unit-select"></select>
+            </div>
+          </div>
+          <p class="conv-note" id="convNote">Static reference rates · last updated locally</p>
+        </div>
+      </article>
+
+      <!-- ============ History Panel ============ -->
+      <aside class="history glass" id="historyPanel" aria-label="Calculation history">
+        <header class="history-head">
+          <h2>History</h2>
+          <button class="clear-history" id="clearHistory">Clear</button>
+        </header>
+        <ul class="history-list" id="historyList">
+          <li class="history-empty">No calculations yet</li>
+        </ul>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <span>Crafted with precision · Lumen</span>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
